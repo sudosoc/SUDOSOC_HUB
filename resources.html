@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
+  <meta name="description" content="SUDOSOC Toolbox — Cybersecurity cheat sheets, guides, and reference material.">
+  <title>Resources — SUDOSOC Toolbox</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='4' y='24' font-family='monospace' font-size='20' fill='%23fff'>$_</text></svg>">
+  <style>
+    .res-tabs { display:flex; gap:0; border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; flex-wrap:wrap; }
+    .res-tab { padding:var(--sp-3) var(--sp-5); font-size:13px; font-weight:500; color:var(--text-2); background:var(--bg-2); border:none; cursor:pointer; border-right:1px solid var(--border); transition:all var(--t-fast); }
+    .res-tab:last-child { border-right:none; }
+    .res-tab:hover { color:var(--text); background:var(--bg-3); }
+    .res-tab.active { color:var(--accent); background:var(--bg-3); }
+    .res-panel { display:none; } .res-panel.active { display:block; }
+    .cmd { font-family:var(--font-mono); color:var(--text); }
+    .flag { color:var(--text-2); }
+    .comment { color:var(--text-3); font-style:italic; }
+    .res-search { position:relative; max-width:400px; margin-bottom:var(--sp-6); }
+    .res-search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--text-3); width:14px; height:14px; pointer-events:none; }
+    .res-search input { width:100%; height:38px; padding:0 12px 0 36px; background:var(--bg-2); border:1px solid var(--border-2); border-radius:var(--r); color:var(--text); font-size:13px; outline:none; transition:border-color var(--t-fast); }
+    .res-search input:focus { border-color:var(--border-focus); }
+    .res-search input::placeholder { color:var(--text-4); }
+    .highlight { background:rgba(255,255,255,0.15); border-radius:2px; }
+    [data-theme="light"] .highlight { background:rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-prompt">&gt;_</span>
+      <span class="logo-cmd">SUDOSOC</span>
+      <span class="logo-suffix">TOOLBOX</span>
+    </a>
+    <div class="nav-links" role="list">
+      <a href="index.html" class="nav-link" role="listitem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>Home
+      </a>
+      <a href="tools.html" class="nav-link" role="listitem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Tools
+      </a>
+      <a href="resources.html" class="nav-link active" role="listitem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Resources
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="https://github.com" class="nav-action" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <button class="nav-action" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIconDark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="themeIconLight" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="nav-hamburger" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" class="mobile-nav-link">Home</a>
+  <a href="tools.html" class="mobile-nav-link">Tools</a>
+  <a href="resources.html" class="mobile-nav-link">Resources</a>
+</div>
+
+<!-- Hero -->
+<div class="resources-page">
+  <div class="resources-hero">
+    <div class="container">
+      <div class="section-tag">// Resources</div>
+      <h1 class="section-title" style="font-size:clamp(24px,4vw,40px)">Cyber Reference Library</h1>
+      <p class="section-desc">Cheat sheets, command references, and field guides for security practitioners.</p>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:var(--sp-8); padding-bottom:var(--sp-16)">
+
+    <!-- Search -->
+    <div class="res-search">
+      <svg class="res-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="resSearch" placeholder="Search commands, flags, filters..." autocomplete="off" aria-label="Search resources">
+    </div>
+
+    <!-- Tabs -->
+    <div class="res-tabs" role="tablist" style="margin-bottom:var(--sp-8)">
+      <button class="res-tab active" data-tab="linux" role="tab" aria-selected="true" id="tab-linux">Linux</button>
+      <button class="res-tab" data-tab="nmap" role="tab" aria-selected="false" id="tab-nmap">Nmap</button>
+      <button class="res-tab" data-tab="wireshark" role="tab" aria-selected="false" id="tab-wireshark">Wireshark</button>
+      <button class="res-tab" data-tab="ir" role="tab" aria-selected="false" id="tab-ir">Incident Response</button>
+      <button class="res-tab" data-tab="soc" role="tab" aria-selected="false" id="tab-soc">SOC Notes</button>
+    </div>
+
+    <!-- ═══ LINUX ═══ -->
+    <div class="res-panel active" id="panel-linux" role="tabpanel" aria-labelledby="tab-linux">
+      <div class="cheatsheet" id="linux" style="max-width:100%;padding:0">
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">File System Navigation</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>ls -la</td><td>List all files with permissions, sizes, and hidden files</td></tr>
+            <tr><td>ls -lh /var/log</td><td>List files in /var/log with human-readable sizes</td></tr>
+            <tr><td>cd /path/to/dir</td><td>Change directory to specified path</td></tr>
+            <tr><td>pwd</td><td>Print current working directory</td></tr>
+            <tr><td>find / -name "*.conf" 2>/dev/null</td><td>Find all .conf files from root, suppress errors</td></tr>
+            <tr><td>find / -perm -4000 2>/dev/null</td><td>Find SUID binaries (privilege escalation check)</td></tr>
+            <tr><td>find /home -mtime -7</td><td>Find files modified in the last 7 days</td></tr>
+            <tr><td>locate filename</td><td>Fast file search using database (run updatedb first)</td></tr>
+            <tr><td>du -sh /var/log/*</td><td>Disk usage of each item in /var/log</td></tr>
+            <tr><td>df -h</td><td>Disk free space, human-readable</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">File Operations</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>cat /etc/passwd</td><td>Display file contents</td></tr>
+            <tr><td>less /var/log/auth.log</td><td>Page through large files (q to quit)</td></tr>
+            <tr><td>tail -f /var/log/syslog</td><td>Follow log file in real-time</td></tr>
+            <tr><td>tail -n 100 file.log</td><td>Show last 100 lines of a file</td></tr>
+            <tr><td>head -n 50 file.log</td><td>Show first 50 lines</td></tr>
+            <tr><td>grep -i "error" /var/log/syslog</td><td>Case-insensitive search for "error"</td></tr>
+            <tr><td>grep -r "password" /etc/ 2>/dev/null</td><td>Recursive search for "password" string</td></tr>
+            <tr><td>grep -E "^\d+\.\d+\.\d+\.\d+" file</td><td>Grep for IPv4 addresses with regex</td></tr>
+            <tr><td>awk '{print $1}' access.log</td><td>Print first field of each line</td></tr>
+            <tr><td>sort | uniq -c | sort -rn</td><td>Count occurrences and sort by frequency</td></tr>
+            <tr><td>cut -d: -f1 /etc/passwd</td><td>Extract usernames from passwd file</td></tr>
+            <tr><td>wc -l file.txt</td><td>Count lines in file</td></tr>
+            <tr><td>strings binary_file</td><td>Extract printable strings from binary</td></tr>
+            <tr><td>xxd file | head -20</td><td>Hex dump of file (first 20 lines)</td></tr>
+            <tr><td>file suspicious</td><td>Identify file type regardless of extension</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">User & Permission Management</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>id</td><td>Show current user ID, group ID, and groups</td></tr>
+            <tr><td>whoami</td><td>Print current username</td></tr>
+            <tr><td>who</td><td>Show currently logged in users</td></tr>
+            <tr><td>w</td><td>Who is logged in and what they're doing</td></tr>
+            <tr><td>last -a</td><td>Show login history with hostnames</td></tr>
+            <tr><td>lastlog</td><td>Last login of all users</td></tr>
+            <tr><td>cat /etc/shadow</td><td>Password hashes (requires root)</td></tr>
+            <tr><td>chmod 755 file</td><td>Set permissions: rwxr-xr-x</td></tr>
+            <tr><td>chown user:group file</td><td>Change file owner and group</td></tr>
+            <tr><td>sudo -l</td><td>List allowed sudo commands for current user</td></tr>
+            <tr><td>getent passwd username</td><td>Get user info from any source (LDAP etc.)</td></tr>
+            <tr><td>groups username</td><td>List groups a user belongs to</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Process & System</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>ps aux</td><td>All running processes with user, PID, CPU, MEM</td></tr>
+            <tr><td>ps aux | grep suspicious</td><td>Search processes by name</td></tr>
+            <tr><td>top / htop</td><td>Interactive process monitor</td></tr>
+            <tr><td>kill -9 PID</td><td>Force kill process by PID</td></tr>
+            <tr><td>pstree -p</td><td>Process tree with PIDs</td></tr>
+            <tr><td>lsof -p PID</td><td>Open files for a specific process</td></tr>
+            <tr><td>lsof -i :80</td><td>What process is listening on port 80</td></tr>
+            <tr><td>netstat -tulpn</td><td>All listening ports with PID (requires root)</td></tr>
+            <tr><td>ss -tulpn</td><td>Modern replacement for netstat</td></tr>
+            <tr><td>uname -a</td><td>Kernel version and system info</td></tr>
+            <tr><td>uptime</td><td>System uptime and load average</td></tr>
+            <tr><td>dmesg | tail -20</td><td>Kernel ring buffer — recent kernel messages</td></tr>
+            <tr><td>systemctl list-units --type=service</td><td>List all running services</td></tr>
+            <tr><td>journalctl -u service -n 100</td><td>Last 100 log lines for a systemd service</td></tr>
+            <tr><td>crontab -l</td><td>List scheduled cron jobs for current user</td></tr>
+            <tr><td>cat /etc/crontab</td><td>System-wide cron jobs</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Network Commands</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>ip addr show</td><td>Show all network interfaces and IP addresses</td></tr>
+            <tr><td>ip route</td><td>Show routing table</td></tr>
+            <tr><td>ping -c 4 8.8.8.8</td><td>Test connectivity (4 packets)</td></tr>
+            <tr><td>traceroute 1.1.1.1</td><td>Trace path to destination</td></tr>
+            <tr><td>dig domain.com A</td><td>DNS lookup for A record</td></tr>
+            <tr><td>dig domain.com MX</td><td>Look up mail exchange records</td></tr>
+            <tr><td>nslookup domain.com</td><td>Simple DNS lookup</td></tr>
+            <tr><td>curl -I https://site.com</td><td>Fetch HTTP headers only</td></tr>
+            <tr><td>wget -q -O- url | grep pattern</td><td>Fetch URL and grep for pattern</td></tr>
+            <tr><td>tcpdump -i eth0 -w capture.pcap</td><td>Capture all traffic on eth0 to file</td></tr>
+            <tr><td>tcpdump -r capture.pcap</td><td>Read and display a pcap file</td></tr>
+            <tr><td>iptables -L -n -v</td><td>List all firewall rules with packet counts</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Forensics & Investigation</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>md5sum file</td><td>Calculate MD5 hash of file</td></tr>
+            <tr><td>sha256sum file</td><td>Calculate SHA256 hash</td></tr>
+            <tr><td>stat file</td><td>Detailed file metadata (atime, mtime, ctime)</td></tr>
+            <tr><td>ls -lai /tmp</td><td>List /tmp with inode numbers</td></tr>
+            <tr><td>lsattr file</td><td>Show extended file attributes</td></tr>
+            <tr><td>chattr +i file</td><td>Make file immutable (cannot be deleted)</td></tr>
+            <tr><td>strace -p PID</td><td>Trace system calls of running process</td></tr>
+            <tr><td>ltrace ./binary</td><td>Trace library calls</td></tr>
+            <tr><td>readelf -a binary</td><td>Display ELF file information</td></tr>
+            <tr><td>objdump -d binary</td><td>Disassemble binary</td></tr>
+            <tr><td>history</td><td>Command history (check ~/.bash_history too)</td></tr>
+            <tr><td>cat ~/.bash_history</td><td>Full bash history — critical for forensics</td></tr>
+            <tr><td>env</td><td>Display all environment variables</td></tr>
+            <tr><td>mount</td><td>Show all mounted filesystems</td></tr>
+            <tr><td>lsmod</td><td>List loaded kernel modules (rootkit check)</td></tr>
+          </table></div>
+        </div>
+
+      </div>
+    </div><!-- /panel-linux -->
+
+    <!-- ═══ NMAP ═══ -->
+    <div class="res-panel" id="panel-nmap" role="tabpanel" aria-labelledby="tab-nmap">
+      <div class="cheatsheet" style="max-width:100%;padding:0">
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Basic Scanning</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap 192.168.1.1</td><td>Basic scan of a single host (top 1000 ports)</td></tr>
+            <tr><td>nmap 192.168.1.0/24</td><td>Scan entire subnet</td></tr>
+            <tr><td>nmap -iL targets.txt</td><td>Scan targets from a file</td></tr>
+            <tr><td>nmap 192.168.1.1-254</td><td>Scan range of IPs</td></tr>
+            <tr><td>nmap -p 22,80,443 host</td><td>Scan specific ports</td></tr>
+            <tr><td>nmap -p- host</td><td>Scan all 65535 ports</td></tr>
+            <tr><td>nmap -p 1-1000 host</td><td>Scan port range 1-1000</td></tr>
+            <tr><td>nmap --top-ports 100 host</td><td>Scan top 100 most common ports</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Scan Techniques</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap -sS host</td><td>SYN scan (stealth, default with root) — most common</td></tr>
+            <tr><td>nmap -sT host</td><td>TCP connect scan (no root required)</td></tr>
+            <tr><td>nmap -sU host</td><td>UDP scan (slow but important)</td></tr>
+            <tr><td>nmap -sA host</td><td>ACK scan — firewall rule mapping</td></tr>
+            <tr><td>nmap -sN host</td><td>NULL scan — no flags set</td></tr>
+            <tr><td>nmap -sF host</td><td>FIN scan</td></tr>
+            <tr><td>nmap -sX host</td><td>Xmas scan — FIN, PSH, URG flags</td></tr>
+            <tr><td>nmap -sW host</td><td>Window scan</td></tr>
+            <tr><td>nmap -sO host</td><td>IP protocol scan</td></tr>
+            <tr><td>nmap -sn 192.168.1.0/24</td><td>Ping scan / host discovery only (no port scan)</td></tr>
+            <tr><td>nmap -Pn host</td><td>Skip ping, treat all hosts as up</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Service & OS Detection</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap -sV host</td><td>Detect service versions</td></tr>
+            <tr><td>nmap -sV --version-intensity 9 host</td><td>Aggressive version detection</td></tr>
+            <tr><td>nmap -O host</td><td>OS detection (requires root)</td></tr>
+            <tr><td>nmap -A host</td><td>Aggressive scan: OS + version + scripts + traceroute</td></tr>
+            <tr><td>nmap -sV -O --osscan-guess host</td><td>Guess OS when detection is uncertain</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">NSE Scripts</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap -sC host</td><td>Run default scripts (equivalent to --script=default)</td></tr>
+            <tr><td>nmap --script=vuln host</td><td>Run vulnerability detection scripts</td></tr>
+            <tr><td>nmap --script=auth host</td><td>Check for authentication bypass issues</td></tr>
+            <tr><td>nmap --script=exploit host</td><td>Run exploitation scripts (careful!)</td></tr>
+            <tr><td>nmap --script=smb-vuln-ms17-010 host</td><td>Check for EternalBlue vulnerability</td></tr>
+            <tr><td>nmap --script=http-title -p80 host</td><td>Get HTTP page title</td></tr>
+            <tr><td>nmap --script=banner host</td><td>Grab banners from open services</td></tr>
+            <tr><td>nmap --script=dns-brute domain.com</td><td>Brute force DNS subdomains</td></tr>
+            <tr><td>nmap --script=ssl-cert -p443 host</td><td>Get SSL certificate information</td></tr>
+            <tr><td>nmap --script=ftp-anon -p21 host</td><td>Check for anonymous FTP login</td></tr>
+            <tr><td>nmap --script=http-enum -p80,443 host</td><td>Enumerate web application paths</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Timing & Performance</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap -T0 host</td><td>Paranoid — very slow, minimal IDS detection</td></tr>
+            <tr><td>nmap -T1 host</td><td>Sneaky — slow scan</td></tr>
+            <tr><td>nmap -T2 host</td><td>Polite — reduces bandwidth</td></tr>
+            <tr><td>nmap -T3 host</td><td>Normal (default)</td></tr>
+            <tr><td>nmap -T4 host</td><td>Aggressive — faster, requires reliable network</td></tr>
+            <tr><td>nmap -T5 host</td><td>Insane — fastest, likely to miss results or be detected</td></tr>
+            <tr><td>nmap --min-rate 1000 host</td><td>Send at least 1000 packets per second</td></tr>
+            <tr><td>nmap --max-retries 1 host</td><td>Only retry once (faster but less accurate)</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Output & Evasion</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>nmap -oN output.txt host</td><td>Normal text output to file</td></tr>
+            <tr><td>nmap -oX output.xml host</td><td>XML output (parseable by tools)</td></tr>
+            <tr><td>nmap -oG output.gnmap host</td><td>Grepable output format</td></tr>
+            <tr><td>nmap -oA output host</td><td>All formats simultaneously</td></tr>
+            <tr><td>nmap -v host</td><td>Verbose output</td></tr>
+            <tr><td>nmap -vv host</td><td>Very verbose output</td></tr>
+            <tr><td>nmap -D RND:10 host</td><td>Decoy scan with 10 random IPs</td></tr>
+            <tr><td>nmap -S SPOOF_IP host</td><td>Spoof source IP address</td></tr>
+            <tr><td>nmap -f host</td><td>Fragment packets to evade firewalls</td></tr>
+            <tr><td>nmap --source-port 53 host</td><td>Use port 53 as source (DNS bypass)</td></tr>
+            <tr><td>nmap --proxies socks4://127.0.0.1:9050 host</td><td>Route through SOCKS proxy</td></tr>
+          </table></div>
+        </div>
+
+      </div>
+    </div><!-- /panel-nmap -->
+
+    <!-- ═══ WIRESHARK ═══ -->
+    <div class="res-panel" id="panel-wireshark" role="tabpanel" aria-labelledby="tab-wireshark">
+      <div class="cheatsheet" style="max-width:100%;padding:0">
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Basic Display Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>ip.addr == 192.168.1.1</td><td>Show all traffic to/from this IP</td></tr>
+            <tr><td>ip.src == 10.0.0.1</td><td>Traffic sourced from IP</td></tr>
+            <tr><td>ip.dst == 10.0.0.2</td><td>Traffic destined for IP</td></tr>
+            <tr><td>ip.addr == 192.168.1.0/24</td><td>All traffic in subnet</td></tr>
+            <tr><td>tcp.port == 443</td><td>All TCP traffic on port 443</td></tr>
+            <tr><td>udp.port == 53</td><td>All DNS traffic</td></tr>
+            <tr><td>tcp.port == 80 or tcp.port == 443</td><td>HTTP and HTTPS traffic</td></tr>
+            <tr><td>not arp and not icmp</td><td>Exclude ARP and ICMP noise</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Protocol Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>http</td><td>All HTTP traffic</td></tr>
+            <tr><td>https / ssl / tls</td><td>TLS/SSL traffic</td></tr>
+            <tr><td>dns</td><td>All DNS queries and responses</td></tr>
+            <tr><td>ftp</td><td>FTP control channel</td></tr>
+            <tr><td>ftp-data</td><td>FTP data transfers</td></tr>
+            <tr><td>smtp</td><td>Email SMTP traffic</td></tr>
+            <tr><td>icmp</td><td>ICMP ping traffic</td></tr>
+            <tr><td>arp</td><td>ARP requests and replies</td></tr>
+            <tr><td>dhcp</td><td>DHCP lease traffic</td></tr>
+            <tr><td>smb</td><td>SMB/Windows file sharing</td></tr>
+            <tr><td>kerberos</td><td>Kerberos authentication</td></tr>
+            <tr><td>rdp</td><td>Remote Desktop Protocol</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">HTTP Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>http.request</td><td>All HTTP requests</td></tr>
+            <tr><td>http.response</td><td>All HTTP responses</td></tr>
+            <tr><td>http.request.method == "POST"</td><td>POST requests only (credentials, forms)</td></tr>
+            <tr><td>http.request.method == "GET"</td><td>GET requests</td></tr>
+            <tr><td>http.response.code == 200</td><td>Successful responses</td></tr>
+            <tr><td>http.response.code == 404</td><td>Not found responses</td></tr>
+            <tr><td>http.host contains "evil"</td><td>HTTP hosts containing "evil"</td></tr>
+            <tr><td>http.request.uri contains "passwd"</td><td>Requests to passwd-related URIs</td></tr>
+            <tr><td>http contains "password"</td><td>HTTP traffic containing "password" string</td></tr>
+            <tr><td>http.cookie</td><td>Requests with cookies</td></tr>
+            <tr><td>http.user_agent contains "curl"</td><td>Curl-based requests</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">TCP/Connection Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>tcp.flags.syn == 1</td><td>TCP SYN packets (connection initiation)</td></tr>
+            <tr><td>tcp.flags.reset == 1</td><td>TCP RST packets (connection reset)</td></tr>
+            <tr><td>tcp.flags.fin == 1</td><td>TCP FIN packets (connection close)</td></tr>
+            <tr><td>tcp.flags == 0x002</td><td>SYN packets only (port scanning detection)</td></tr>
+            <tr><td>tcp.analysis.retransmission</td><td>Retransmitted packets (network issues)</td></tr>
+            <tr><td>tcp.analysis.duplicate_ack</td><td>Duplicate ACKs (packet loss)</td></tr>
+            <tr><td>tcp.stream eq 0</td><td>Follow specific TCP stream by number</td></tr>
+            <tr><td>tcp.len > 0</td><td>TCP packets with payload data</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">DNS Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>dns.qry.name contains "evil"</td><td>DNS queries containing specific string</td></tr>
+            <tr><td>dns.qry.type == 1</td><td>A record queries</td></tr>
+            <tr><td>dns.qry.type == 28</td><td>AAAA (IPv6) queries</td></tr>
+            <tr><td>dns.qry.type == 16</td><td>TXT record queries (C2 exfil)</td></tr>
+            <tr><td>dns.resp.len > 512</td><td>Large DNS responses (DNS tunneling)</td></tr>
+            <tr><td>dns.qry.name.len > 50</td><td>Long DNS queries (DNS tunneling indicator)</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Security Investigation Filters</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>tcp.flags.syn==1 && tcp.flags.ack==0</td><td>Port scan detection (SYN without ACK)</td></tr>
+            <tr><td>icmp.type == 8 && icmp.code == 0</td><td>ICMP echo requests (ping sweep)</td></tr>
+            <tr><td>ip.ttl &lt; 5</td><td>Low TTL — possible traceroute or spoofing</td></tr>
+            <tr><td>frame.len > 1500</td><td>Jumbo frames or oversized packets</td></tr>
+            <tr><td>!(ip.src == 192.168.0.0/16)</td><td>Traffic not from RFC1918 — external traffic</td></tr>
+            <tr><td>tcp.dstport in {4444 8080 9090 1337}</td><td>Common backdoor/C2 ports</td></tr>
+            <tr><td>wlan.fc.type_subtype == 0x000c</td><td>Deauthentication frames (WiFi attacks)</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">tshark CLI Examples</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>tshark -r file.pcap</td><td>Read and display a pcap file</td></tr>
+            <tr><td>tshark -r file.pcap -Y "http"</td><td>Apply display filter while reading</td></tr>
+            <tr><td>tshark -r file.pcap -T fields -e ip.src -e ip.dst</td><td>Extract specific fields</td></tr>
+            <tr><td>tshark -i eth0 -w capture.pcap</td><td>Capture to file on interface</td></tr>
+            <tr><td>tshark -r f.pcap -Y dns -T fields -e dns.qry.name</td><td>Extract all DNS queries</td></tr>
+            <tr><td>tshark -r f.pcap -z io,phs</td><td>Protocol hierarchy statistics</td></tr>
+            <tr><td>tshark -r f.pcap -z conv,tcp</td><td>TCP conversation statistics</td></tr>
+          </table></div>
+        </div>
+
+      </div>
+    </div><!-- /panel-wireshark -->
+
+    <!-- ═══ INCIDENT RESPONSE ═══ -->
+    <div class="res-panel" id="panel-ir" role="tabpanel" aria-labelledby="tab-ir">
+      <div class="cheatsheet" style="max-width:100%;padding:0">
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">IR Phases (NIST SP 800-61)</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>1. Preparation</td><td>Establish IR team, policies, tools, and communication plans before an incident</td></tr>
+            <tr><td>2. Detection &amp; Analysis</td><td>Identify indicators of compromise, determine scope and severity</td></tr>
+            <tr><td>3. Containment</td><td>Short-term (isolate systems), Long-term (patch/segment)</td></tr>
+            <tr><td>4. Eradication</td><td>Remove malware, close entry points, reset credentials</td></tr>
+            <tr><td>5. Recovery</td><td>Restore systems, monitor closely, verify normal operation</td></tr>
+            <tr><td>6. Lessons Learned</td><td>Document timeline, update playbooks, improve detection</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Initial Triage (First 15 Minutes)</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>Identify alert source</td><td>SIEM alert? EDR? User report? Email? Network alert?</td></tr>
+            <tr><td>Determine severity</td><td>Critical / High / Medium / Low based on asset criticality + IOC confidence</td></tr>
+            <tr><td>Preserve evidence</td><td>Take memory dump before rebooting or isolating. Memory is volatile!</td></tr>
+            <tr><td>Document everything</td><td>Timestamp every action. Use UTC. Who, what, when, how.</td></tr>
+            <tr><td>Notify stakeholders</td><td>Escalate per runbook — manager, legal, CISO if critical</td></tr>
+            <tr><td>Check false positive</td><td>Verify IOC against threat intel before taking action</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Windows — Live Response Commands</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>netstat -ano</td><td>Active connections with PID</td></tr>
+            <tr><td>tasklist /svc</td><td>Running processes with services</td></tr>
+            <tr><td>tasklist /FI "PID eq 1234"</td><td>Process info by PID</td></tr>
+            <tr><td>Get-Process | Sort-Object CPU -Descending</td><td>PowerShell: CPU-hungry processes</td></tr>
+            <tr><td>schtasks /query /fo LIST /v</td><td>List all scheduled tasks (persistence)</td></tr>
+            <tr><td>reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Autorun registry keys</td></tr>
+            <tr><td>wmic startup list full</td><td>Startup items via WMI</td></tr>
+            <tr><td>Get-EventLog -LogName Security -Newest 100</td><td>Last 100 security events</td></tr>
+            <tr><td>net user</td><td>List all local user accounts</td></tr>
+            <tr><td>net localgroup administrators</td><td>Members of local admin group</td></tr>
+            <tr><td>ipconfig /all</td><td>Network config including DNS</td></tr>
+            <tr><td>route print</td><td>Routing table</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Windows Event Log IDs</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>4624</td><td>Successful logon — note logon type (2=interactive, 3=network, 10=remote)</td></tr>
+            <tr><td>4625</td><td>Failed logon attempt</td></tr>
+            <tr><td>4634 / 4647</td><td>Logoff</td></tr>
+            <tr><td>4648</td><td>Logon using explicit credentials (pass-the-hash, runas)</td></tr>
+            <tr><td>4672</td><td>Special privileges assigned (admin login indicator)</td></tr>
+            <tr><td>4688</td><td>New process created — audit command lines!</td></tr>
+            <tr><td>4698</td><td>Scheduled task created (persistence)</td></tr>
+            <tr><td>4720 / 4726</td><td>User account created / deleted</td></tr>
+            <tr><td>4732 / 4756</td><td>Member added to security/admin group</td></tr>
+            <tr><td>4771</td><td>Kerberos pre-authentication failed</td></tr>
+            <tr><td>4776</td><td>Domain controller auth attempt (NTLM)</td></tr>
+            <tr><td>7045</td><td>New service installed (persistence)</td></tr>
+            <tr><td>1102</td><td>Audit log cleared — major red flag!</td></tr>
+            <tr><td>4104</td><td>PowerShell script block logging</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Containment Decision Matrix</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>Isolate from network</td><td>If active exfiltration or C2 communication detected</td></tr>
+            <tr><td>Block IP/domain at firewall</td><td>Known C2 IPs/domains from threat intel</td></tr>
+            <tr><td>Disable user account</td><td>If compromised credentials confirmed</td></tr>
+            <tr><td>Reset passwords</td><td>All accounts on compromised system + shared credentials</td></tr>
+            <tr><td>Revoke API keys/tokens</td><td>If secrets were exposed in logs or processes</td></tr>
+            <tr><td>Snapshot VM before wiping</td><td>Preserve forensic evidence for legal/insurance</td></tr>
+            <tr><td>Do NOT reboot immediately</td><td>Volatile evidence (RAM, processes, network connections) will be lost</td></tr>
+          </table></div>
+        </div>
+
+      </div>
+    </div><!-- /panel-ir -->
+
+    <!-- ═══ SOC NOTES ═══ -->
+    <div class="res-panel" id="panel-soc" role="tabpanel" aria-labelledby="tab-soc">
+      <div class="cheatsheet" style="max-width:100%;padding:0" id="soc-notes">
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Alert Triage Process</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>1. Validate</td><td>Is this a true positive or false positive? Check context, asset info, user behavior baseline</td></tr>
+            <tr><td>2. Enrich</td><td>Add threat intel context: VirusTotal, Shodan, AbuseIPDB, internal CMDB</td></tr>
+            <tr><td>3. Scope</td><td>Is this isolated or widespread? Check lateral movement, other affected systems</td></tr>
+            <tr><td>4. Classify</td><td>Attack type: phishing / malware / brute force / insider / DDoS / exfiltration</td></tr>
+            <tr><td>5. Respond</td><td>Follow runbook for alert type. Document all actions with timestamps</td></tr>
+            <tr><td>6. Close</td><td>Document resolution, update ticket, tune detection if FP</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Common Attack Patterns (MITRE ATT&amp;CK)</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>T1566 — Phishing</td><td>Watch for: unusual sender, suspicious attachments, links to uncommon domains</td></tr>
+            <tr><td>T1059 — Command Interpreter</td><td>PowerShell, cmd, bash with obfuscated commands or unusual parent processes</td></tr>
+            <tr><td>T1078 — Valid Accounts</td><td>Legitimate creds used maliciously: off-hours login, new geo-location, bulk access</td></tr>
+            <tr><td>T1055 — Process Injection</td><td>Processes injecting into lsass, explorer, svchost</td></tr>
+            <tr><td>T1110 — Brute Force</td><td>Multiple 4625 events, high frequency auth failures from same source</td></tr>
+            <tr><td>T1071 — C2 via Web</td><td>Beaconing pattern: regular intervals, unusual User-Agent, encrypted POST to rare domain</td></tr>
+            <tr><td>T1048 — Exfiltration</td><td>Large DNS TXT responses, unusual data out via HTTP/FTP/cloud storage</td></tr>
+            <tr><td>T1547 — Boot Persistence</td><td>New registry Run keys, scheduled tasks, services added</td></tr>
+            <tr><td>T1003 — Credential Dump</td><td>LSASS access, SAM dump, Mimikatz artifacts</td></tr>
+            <tr><td>T1021 — Lateral Movement</td><td>SMB/WMI/RDP connections between internal hosts, PsExec, WMIExec</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Key Log Sources for SOC</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>Windows Security Log</td><td>Logon/logoff, process creation, privilege use, account changes</td></tr>
+            <tr><td>Windows Sysmon</td><td>Process create, network connections, file hash, DNS queries — critical!</td></tr>
+            <tr><td>PowerShell Script Block</td><td>Decoded PowerShell commands — catches obfuscated attacks</td></tr>
+            <tr><td>DNS Logs</td><td>Query logs — DGA domains, DNS tunneling, C2 beaconing</td></tr>
+            <tr><td>Firewall/NSG Logs</td><td>Allowed/denied connections, port scans, policy violations</td></tr>
+            <tr><td>Proxy/Web Gateway</td><td>URLs visited, categories, bytes transferred, user agents</td></tr>
+            <tr><td>EDR Telemetry</td><td>Process trees, file operations, network connections per process</td></tr>
+            <tr><td>AD / LDAP Logs</td><td>Group changes, enumeration, failed auth, account lockouts</td></tr>
+            <tr><td>Email Gateway</td><td>Attachments, links, sender reputation, DMARC/SPF/DKIM failures</td></tr>
+            <tr><td>VPN Logs</td><td>Remote access, impossible travel, concurrent sessions</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">IOC Types & Confidence</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>File Hash (SHA256)</td><td>High confidence — unique to a file. Don't rely on MD5 alone (collision risk)</td></tr>
+            <tr><td>IP Address</td><td>Medium — IPs rotate. Check ASN, hosting provider, geolocation context</td></tr>
+            <tr><td>Domain</td><td>Medium — DGA domains are random. Check WHOIS, cert, registration date</td></tr>
+            <tr><td>URL</td><td>Medium-High — more specific than domain. Check full path</td></tr>
+            <tr><td>Email Address</td><td>Low-Medium — easily spoofed. Check SPF/DKIM/DMARC headers</td></tr>
+            <tr><td>User Agent</td><td>Low — trivial to change. Useful for correlation only</td></tr>
+            <tr><td>Mutex / Registry Key</td><td>High — often hardcoded in malware families</td></tr>
+            <tr><td>Network Signature</td><td>High — protocol anomalies, beacon timing, Yara network rules</td></tr>
+          </table></div>
+        </div>
+
+        <div class="cheatsheet-section">
+          <div class="cheatsheet-section-title">Useful Threat Intel Platforms</div>
+          <div class="table-wrap"><table class="cmd-table">
+            <tr><td>VirusTotal</td><td>Hash, IP, domain, URL reputation — multi-AV scan</td></tr>
+            <tr><td>Shodan</td><td>Internet-facing device search — known vulnerabilities, open ports</td></tr>
+            <tr><td>AbuseIPDB</td><td>IP abuse reports — brute force, spam, C2 history</td></tr>
+            <tr><td>MISP</td><td>Threat sharing platform — IOCs, threat intel feeds</td></tr>
+            <tr><td>OpenCTI</td><td>Open source threat intelligence platform</td></tr>
+            <tr><td>URLScan.io</td><td>Website screenshot + network analysis without visiting</td></tr>
+            <tr><td>ANY.RUN</td><td>Interactive malware sandbox</td></tr>
+            <tr><td>MalwareBazaar</td><td>Malware sample repository by abuse.ch</td></tr>
+            <tr><td>CIRCL CVE</td><td>CVE lookup with CVSS scores and exploit info</td></tr>
+            <tr><td>Talos Intelligence</td><td>Cisco Talos — email reputation, IP/domain blocklist</td></tr>
+          </table></div>
+        </div>
+
+      </div>
+    </div><!-- /panel-soc -->
+
+  </div><!-- /container -->
+</div><!-- /resources-page -->
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="js/components/toast.js"></script>
+<script src="js/app.js"></script>
+<script>
+(function() {
+  // Tab switching
+  const tabs = document.querySelectorAll('.res-tab');
+  const panels = document.querySelectorAll('.res-panel');
+
+  function switchTab(tabId) {
+    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    panels.forEach(p => p.classList.remove('active'));
+    const tab = document.querySelector(`[data-tab="${tabId}"]`);
+    const panel = document.getElementById(`panel-${tabId}`);
+    if (tab && panel) {
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      panel.classList.add('active');
+    }
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      switchTab(tab.dataset.tab);
+      history.replaceState(null, '', '#' + tab.dataset.tab);
+    });
+  });
+
+  // Hash routing
+  const hash = location.hash.replace('#','');
+  const validTabs = ['linux','nmap','wireshark','ir','soc'];
+  if (validTabs.includes(hash)) switchTab(hash);
+
+  // Live search within active panel
+  const searchInput = document.getElementById('resSearch');
+  searchInput.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    const activePanel = document.querySelector('.res-panel.active');
+    if (!activePanel) return;
+    const rows = activePanel.querySelectorAll('.cmd-table tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = (!q || text.includes(q)) ? '' : 'none';
+      if (q && text.includes(q)) {
+        row.querySelectorAll('td').forEach(td => {
+          const orig = td.dataset.orig || td.textContent;
+          td.dataset.orig = orig;
+          const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+          td.innerHTML = orig.replace(re, '<mark class="highlight">$1</mark>');
+        });
+      } else {
+        row.querySelectorAll('td').forEach(td => {
+          if (td.dataset.orig) td.textContent = td.dataset.orig;
+        });
+      }
+    });
+  });
+
+  // Clear search on tab switch
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      searchInput.value = '';
+    });
+  });
+})();
+</script>
+</body>
+</html>
